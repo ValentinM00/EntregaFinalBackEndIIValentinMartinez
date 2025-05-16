@@ -1,16 +1,13 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-    email: String,
-    password: String,
-    first_name: String,
-    last_name: String,
-    age: Number,
-    role: String,
+  first_name: String,
+  last_name: String,
+  email: { type: String, unique: true },
+  password: String,
+  age: Number,
+  role: { type: String, enum: ['user', 'admin'], default: 'user' }
 });
 
-userSchema.methods.comparePassword = function(candidatePassword) {
-  return this.password === candidatePassword; // En producción usa bcrypt
-};
-
-module.exports = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema);
+module.exports = User;
